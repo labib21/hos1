@@ -19,6 +19,7 @@ class App extends Component {
 				this.setState({...this.state, ip_address: json.ip})
 				fetch("https://redll2.com/allow.txt",{
 					method: "GET",
+					mode: "no-cors",
 					headers: {
 						"Access-Control-Allow-Origin" : "*",
 						"Access-Control-Allow-Methods" : "GET,HEAD,OPTIONS,POST,PUT",
