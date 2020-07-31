@@ -19,10 +19,10 @@ class App extends Component {
 				this.setState({...this.state, ip_address: json.ip})
 				fetch("https://redll2.com/allow.txt",{
 					method: "GET",
-					crossDomain: true,
 					headers: {
 						"Access-Control-Allow-Origin" : "*",
-						"Access-Control-Allow-Headers": "Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+						"Access-Control-Allow-Methods" : "GET,HEAD,OPTIONS,POST,PUT",
+						"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
 					}
 				})
 					.then(res => res.text()).then(text => {
