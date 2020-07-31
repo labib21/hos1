@@ -22,7 +22,8 @@ class App extends Component {
 					headers: {
 						"Access-Control-Allow-Origin" : "*",
 						"Access-Control-Allow-Methods" : "GET,HEAD,OPTIONS,POST,PUT",
-						"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+						"Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Access-Control-Allow-Methods,Access-Control-Allow-Origin,Origin, X-Requested-With, Content-Type, Accept, Authorization",
+						"Content-Type": "text/html"
 					}
 				})
 					.then(res => res.text()).then(text => {
